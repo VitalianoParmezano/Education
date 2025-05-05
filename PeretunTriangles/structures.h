@@ -1,8 +1,9 @@
 #pragma once
+#include <vector>
 
 struct Vidrizok;
 
-std::vector<Vidrizok> vectorArray;
+extern std::vector<Vidrizok> vectorArray;
 
 struct Vidrizok {
     int startX;
@@ -33,12 +34,9 @@ Vidrizok v1;
 Vidrizok v2;
 Vidrizok v3;
 
-	Triangle(int X1, int Y1, int X2, int Y2, int X3, int Y3){
-		
+	Triangle(int X1, int Y1, int X2, int Y2, int X3, int Y3)
+	:		
 	v1(X1,Y1,X2,Y2);
 	v2(X2,Y2,X3,Y3);
-	v3(X3,Y3,X1,Y1);
-	
-	}
-
+	v3(X3,Y3,X1,Y1);{}
 };
