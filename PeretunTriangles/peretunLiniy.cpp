@@ -46,6 +46,16 @@ bool ProectCheck(Vidrizok* a, Vidrizok*b){
 
 	return true;	
 }
+
+bool isPeretunForTriangle(Triangle* t1,Triangle* t2){
+ 
+	bool check = isPeretun(t1->&v1,t2->&v2);
+	
+	
+return check;
+
+}
+
 int main(){
 
 int a,b,c,d;
@@ -68,8 +78,9 @@ std::cout<<"Bravo points: "<<bravo.vectorPoint[0]<<bravo.vectorPoint[1]<<std::en
 std::cout<<-2*3<<std::endl<<std::endl<<std::endl;
 std::cout<<"PeretunVidrizkiv: "<<isPeretun(&alfa,&bravo)<<std::endl;
 
-Triangle triangle(1,1,4,4,4,1);
-
+Triangle tr1(1,1,4,4,4,1);
+Triangle tr2(3,2,5,4,3,8);
+isPeretunForTriangle(&tr1,&tr2);
 drawLine(&vectorArray);
 
 return 0;
