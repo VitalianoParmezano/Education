@@ -23,7 +23,7 @@ int min (int a, int b, int c){
 
 
 
-bool ProectForTriangles(*Triangle a, *Triangle b){
+bool ProectForTriangles(Triangle* a, Triangle* b){
 
 	bool X = false;
 	bool Y = false;
@@ -40,11 +40,11 @@ bool ProectForTriangles(*Triangle a, *Triangle b){
 	
 	int bMaxX = max(b->v1.startX, b->v2.startX, b->v3.startX);
 	buffer = max(b->v1.endX, b->v2.endX, b->v3.endX);
-	bMaxX = max(aMaxX, buffer);
+	bMaxX = max(bMaxX, buffer);
 	
-	int aMaxY = max(b->v1.startY, b->v2.startY, b->v3.startY);
+	int bMaxY = max(b->v1.startY, b->v2.startY, b->v3.startY);
 	buffer = max(b->v1.endY, b->v2.endY, b->v3.endY);
-	aMaxY = max(aMaxY, buffer);
+	bMaxY = max(bMaxY, buffer);
 	//min values	
 	
 	int aMinX = min(a->v1.startX, a->v2.startX, a->v3.startX);
@@ -57,12 +57,12 @@ bool ProectForTriangles(*Triangle a, *Triangle b){
 
 	int bMinX = min(b->v1.startX, b->v2.startX, b->v3.startX);
 	buffer = min(b->v1.endX, b->v2.endX, b->v3.endX);
-	bMinX = min(aMinX, buffer);
+	bMinX = min(bMinX, buffer);
 
 
-	int aMinY = min(b->v1.startY, b->v2.startY, b->v3.startY);
+	int bMinY = min(b->v1.startY, b->v2.startY, b->v3.startY);
 	buffer = min(b->v1.endY, b->v2.endY, b->v3.endY);
-	aMinY = min(aMinY, buffer);
+	bMinY = min(bMinY, buffer);
 
 	if(min(bMaxX,aMaxX) >=  max(aMinX,bMinX)){X=true;}
 	
