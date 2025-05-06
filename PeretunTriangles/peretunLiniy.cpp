@@ -2,6 +2,7 @@
 #include "drawer.h"
 #include<vector>
 #include"structures.h"
+#include<functional.cpp>
 
 std::vector<Vidrizok> vectorArray;
 
@@ -9,18 +10,11 @@ std::vector<Vidrizok> vectorArray;
 
 bool isPeretun(Vidrizok*, Vidrizok*);
 
-int max(int a, int b){
-	if(a>b){return a;}
-	else{return b;}
-}
-int min (int a, int b){
-	if(a>b){return b;}
-	else{return a;}
-}
+
 
 int PsevdoScalyar(Vidrizok* a, Vidrizok* b){
-		int first = a->vectorPoint[0]*b->vectorPoint[1]; 
-		int secound = b->vectorPoint[0]*a->vectorPoint[1];
+	int first = a->vectorPoint[0]*b->vectorPoint[1]; 
+	int secound = b->vectorPoint[0]*a->vectorPoint[1];
 	return first-secound;	
 }
 bool ProectCheck(Vidrizok* a, Vidrizok*b){
@@ -49,7 +43,7 @@ bool ProectCheck(Vidrizok* a, Vidrizok*b){
 
 bool isPeretunForTriangle(Triangle* t1,Triangle* t2){
  
-	bool check = isPeretun(t1->&v1,t2->&v2);
+	bool check = isPeretun(&(t1->v1),&(t2->v2));
 	
 	
 return check;
@@ -78,9 +72,9 @@ std::cout<<"Bravo points: "<<bravo.vectorPoint[0]<<bravo.vectorPoint[1]<<std::en
 std::cout<<-2*3<<std::endl<<std::endl<<std::endl;
 std::cout<<"PeretunVidrizkiv: "<<isPeretun(&alfa,&bravo)<<std::endl;
 
-Triangle tr1(1,1,4,4,4,1);
-Triangle tr2(3,2,5,4,3,8);
-isPeretunForTriangle(&tr1,&tr2);
+Triangle tr1(1,3,6,3,1,1);
+Triangle tr2(3,8,2,8,2,1);
+std::cout<<isPeretunForTriangle(&tr1,&tr2)<<std::endl;
 drawLine(&vectorArray);
 
 return 0;
@@ -120,5 +114,4 @@ bool isPeretun(Vidrizok* a, Vidrizok* b){
 	}
 	return false;
 }
-
 
