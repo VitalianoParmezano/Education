@@ -1,6 +1,13 @@
 #pragma once
 #include <vector>
 
+int max(int a, int b);
+int min(int a, int b);
+
+int max(int a, int b, int c);
+int min(int a, int b, int c);
+
+
 struct Vidrizok;
 
 extern std::vector<Vidrizok> vectorArray;
@@ -23,6 +30,17 @@ struct Vidrizok {
 	
 	vectorArray.push_back(*this);
     }
+
+    Vidrizok(int startX, int startY, int endX, int endY,bool drawing) {
+        this->startX = startX;
+        this->endX = endX;
+        this->startY = startY;
+        this->endY = endY;
+
+        this->vectorPoint[0] = endX - startX;
+        this->vectorPoint[1] = endY - startY;
+	
+    }
 };
 
 
@@ -40,3 +58,8 @@ Vidrizok v3;
 	v2(X2,Y2,X3,Y3),
 	v3(X3,Y3,X1,Y1){}
 };
+
+bool ProectForTriangles(Triangle* a, Triangle* b);
+
+bool isPeretun(Vidrizok*, Vidrizok*);
+bool isPeretun(Triangle*, Triangle*);

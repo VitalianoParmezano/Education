@@ -1,117 +1,54 @@
 #include<iostream>
-#include "drawer.h"
 #include<vector>
-#include"structures.h"
-#include<functional.cpp>
+#include "drawer.h"
+#include "structures.h"
 
 std::vector<Vidrizok> vectorArray;
 
 
 
-bool isPeretun(Vidrizok*, Vidrizok*);
 
 
 
-int PsevdoScalyar(Vidrizok* a, Vidrizok* b){
-	int first = a->vectorPoint[0]*b->vectorPoint[1]; 
-	int secound = b->vectorPoint[0]*a->vectorPoint[1];
-	return first-secound;	
-}
-bool ProectCheck(Vidrizok* a, Vidrizok*b){
-	
-	bool X = false;
-	bool Y = false;
 
-	int aMaxY = max(a->startY,a->endY);
-	int aMinY = min(a->startY,a->endY);
-	int bMaxY = max(b->startY,b->endY);
-	int bMinY = min(b->startY,b->endY);
-
-	int aMaxX = max(a->startX,a->endX);
-	int aMinX = min(a->startX,a->endX);
-	int bMaxX = max(b->startX,b->endX);
-	int bMinX = min(b->startX,b->endX);
-
-	if(min(bMaxX,aMaxX) >=  max(aMinX,bMinX)){X=true;}
-	else{return false;}
-	
-	if(min(bMaxY,aMaxY) >= max (aMinY,bMinY)){Y=true;}
-	else{return false;}
-
-	return true;	
-}
-
-bool isPeretunForTriangle(Triangle* t1,Triangle* t2){
- 
-	bool check = isPeretun(&(t1->v1),&(t2->v2));
+//bool isPeretunForTriangle(Triangle* t1,Triangle* t2){
+ //
+//	bool check = isPeretun(&(t1->v1),&(t2->v2));
 	
 	
-return check;
+//return check;
 
-}
+//}
 
 int main(){
 
 int a,b,c,d;
 
-std::cout<<"Alfa:"<<std::endl;
-std::cin>>a;std::cin>>b;std::cin>>c;std::cin>>d;
-Vidrizok alfa(a,b,c,d);
+//	std::cout<<"Alfa:"<<std::endl;
+//	std::cin>>a;std::cin>>b;std::cin>>c;std::cin>>d;
+//	Vidrizok alfa(a,b,c,d);
+//
+//	std::cout<<"Bravo:"<<std::endl;
+//	std::cin>>a;std::cin>>b;std::cin>>c;std::cin>>d;
+//	Vidrizok bravo(a,b,c,d);
+//
+//	int s = PsevdoScalyar(&alfa, &bravo);
+//	bool r = ProectCheck(&alfa, &bravo); 
+//	std::cout<<r<<std::endl;
+//
+//	std::cout<<"Skalyar: "<<s<<std::endl;
+//	std::cout<<"Alfa points: "<<alfa.vectorPoint[0]<<alfa.vectorPoint[1]<<std::endl;
+//	std::cout<<"Bravo points: "<<bravo.vectorPoint[0]<<bravo.vectorPoint[1]<<std::endl;
+//	std::cout<<-2*3<<std::endl<<std::endl<<std::endl;
+//	std::cout<<"PeretunVidrizkiv: "<<isPeretun(&alfa,&bravo)<<std::endl;
 
-std::cout<<"Bravo:"<<std::endl;
-std::cin>>a;std::cin>>b;std::cin>>c;std::cin>>d;
-Vidrizok bravo(a,b,c,d);
+Triangle tr1(5,1,7,4,9,1);
+Triangle tr2(5,4,7,9,9,4);
+std::cout<<isPeretun(&tr1,&tr2)<<std::endl;
 
-int s = PsevdoScalyar(&alfa, &bravo);
-bool r = ProectCheck(&alfa, &bravo); 
-std::cout<<r<<std::endl;
-
-std::cout<<"Skalyar: "<<s<<std::endl;
-std::cout<<"Alfa points: "<<alfa.vectorPoint[0]<<alfa.vectorPoint[1]<<std::endl;
-std::cout<<"Bravo points: "<<bravo.vectorPoint[0]<<bravo.vectorPoint[1]<<std::endl;
-std::cout<<-2*3<<std::endl<<std::endl<<std::endl;
-std::cout<<"PeretunVidrizkiv: "<<isPeretun(&alfa,&bravo)<<std::endl;
-
-Triangle tr1(1,3,6,3,1,1);
-Triangle tr2(3,8,2,8,2,1);
-std::cout<<isPeretunForTriangle(&tr1,&tr2)<<std::endl;
 drawLine(&vectorArray);
 
 return 0;
 }
 
-bool isPeretun(Vidrizok* a, Vidrizok* b){
-
-	bool scalarCheck2 = false;
-	bool scalarCheck1 = false;
-	bool proectCheck = false;
-
-	Vidrizok temp1(a->startX,a->startY,b->startX,b->startY);
-	Vidrizok temp2(a->startX,a->startY,b->endX,b->endY);
-	
-	int scalarResult1 = PsevdoScalyar(a,&temp1);
-	int scalarResult2 = PsevdoScalyar(a,&temp2);
-
-	if (scalarResult1 ^ scalarResult2 < 0){
-	scalarCheck1 = true;}
-	else{return false;}
-	
-	Vidrizok temp3(b->startX,b->startY,a->startX,a->startY);
-	Vidrizok temp4(b->startX,b->startY,a->endX,a->endY);
-	
-	scalarResult1 = PsevdoScalyar(b,&temp3);
-	scalarResult2 = PsevdoScalyar(b,&temp4);
-	
-	int debug = scalarResult1 ^ scalarResult2; 
-	if (debug < 0){
-	scalarCheck2 = true;}
-	else{return false;}
-
-	proectCheck =  ProectCheck(a,b);
-
-	if(proectCheck&&scalarCheck1&&scalarCheck2){
-	return true;
-	}
-	return false;
-}
 
