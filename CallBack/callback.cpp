@@ -1,5 +1,5 @@
 #include<iostream>
-
+//test
 void applyToArray(int* arr,int size, int (*callbacFunc)(int&));
 
 int doubleN (int& a){
