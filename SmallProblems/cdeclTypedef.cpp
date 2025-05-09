@@ -3,24 +3,27 @@
 int plus(int& x);
 int minus(int& x);
 
-int(*GetMinusFunc())(int& a){
+int(*GetSomeFunc(bool M))(int&){
+if (M){
 return minus;}
+return plus;
+}
 
 int main(){
-int x = 5;
-std::cout<<plus( x)<<std::endl;
-int b = 5;
-int(*Fptr)(int& a);
 
-Fptr = GetMinusFunc();
+int b = 10;
+int(*Fptr)(int& x);
 Fptr = plus;
 
-b = Fptr(b);
+Fptr = GetSomeFunc(0);
+int a = Fptr(b);
 
-std::cout<<b<<std::endl;
+
+std::cout<<a<<std::endl;
+
+
 
 }
-//test
 int plus(int& x){
 return x+1;
 }
