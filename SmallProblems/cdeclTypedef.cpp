@@ -1,11 +1,10 @@
 //func takes x, int func(&a)`
 #include<iostream>
-int plus(int  x);
+int plus(int& x);
 int minus(int& x);
 
-int(*funcp)(int& x)GetMinusFunc(){
-return minus;
-}
+int(*GetMinusFunc())(int& a){
+return minus;}
 
 int main(){
 int x = 5;
@@ -14,6 +13,7 @@ int b = 5;
 int(*Fptr)(int& a);
 
 Fptr = GetMinusFunc();
+Fptr = plus;
 
 b = Fptr(b);
 
@@ -21,7 +21,7 @@ std::cout<<b<<std::endl;
 
 }
 
-int plus(int  x){
+int plus(int& x){
 return x+1;
 }
 
