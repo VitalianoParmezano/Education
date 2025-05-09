@@ -20,7 +20,7 @@ b = Fptr(b);
 std::cout<<b<<std::endl;
 
 }
-
+//test
 int plus(int& x){
 return x+1;
 }
