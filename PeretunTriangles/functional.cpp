@@ -119,8 +119,9 @@ bool isPeretun(Vidrizok* a, Vidrizok* b){
 	int scalarResult1 = PsevdoScalyar(a,&temp1);
 	int scalarResult2 = PsevdoScalyar(a,&temp2);
 
-	if (scalarResult1 ^ scalarResult2 < 0){
-	scalarCheck1 = true;}
+	if (scalarResult1 ^ scalarResult2 < 0||scalarResult1==0||scalarResult2==0){
+	scalarCheck1 = true;
+	}
 	else{return false;}
 	
 	Vidrizok temp3(b->startX,b->startY,a->startX,a->startY,false);
@@ -130,7 +131,7 @@ bool isPeretun(Vidrizok* a, Vidrizok* b){
 	scalarResult2 = PsevdoScalyar(b,&temp4);
 	
 	int debug = scalarResult1 ^ scalarResult2; 
-	if (debug < 0){
+	if (debug < 0 ||scalarResult1==0||scalarResult2==0){
 	scalarCheck2 = true;}
 	else{return false;}
 
