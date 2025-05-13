@@ -18,6 +18,8 @@ Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
 
 ''загадкове посилання:
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
