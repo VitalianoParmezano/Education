@@ -24,7 +24,7 @@ void generate_matrices() {
         }
 }
 
-// Виведення матриці (обережно — буде багато виводу)
+// Виведення матриці
 void print_matrix(int mat[SIZE][SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -63,6 +63,7 @@ int main(int argc, char* argv[]) {
     clock_t start_time = clock();
 
     if (num_threads == 1) {
+        printf("ℹ️ Виконується у 1 потоці...\n");
         int tid = 0;
         add_matrices(&tid);
     } else {
@@ -83,8 +84,7 @@ int main(int argc, char* argv[]) {
 
     printf("\n✅ Додавання завершено. (A + B + C)\n");
 
-    // Якщо хочеш — можеш виводити результат:
-    // print_matrix(RESULT);
+    print_matrix(RESULT);
 
     printf("⏱️ Час виконання: %.6f секунд\n", elapsed);
 
