@@ -1,0 +1,19 @@
+" Основне
+syntax on
+set number
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set background=dark
+
+" Плагіни керуються через vim-plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
