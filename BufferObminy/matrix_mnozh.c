@@ -83,8 +83,8 @@ int main(int argc, char* argv[]) {
 
     printf("\n✅ Додавання завершено. (A + B + C)\n");
 
-    // Якщо хочеш — можеш виводити результат:
-    // print_matrix(RESULT);
+//    Якщо хочеш — можеш виводити результат:
+//    print_matrix(RESULT);
 
     printf("⏱️ Час виконання: %.6f секунд\n", elapsed);
 
