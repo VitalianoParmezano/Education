@@ -45,7 +45,11 @@ void* add_matrices(void* arg) {
         for (int j = 0; j < SIZE; j++)
             RESULT[i][j] = A[i][j] + B[i][j] + C[i][j];
 
-    pthread_exit(NULL);
+        // Завершення потоку тільки якщо це багатопоточність
+    if (num_threads > 1)
+        pthread_exit(NULL);
+
+    return null;
 }
 
 int main(int argc, char* argv[]) {
