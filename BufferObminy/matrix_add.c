@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <time.h>
 
-#define SIZE 100
+#define SIZE 99
 #define MAX_THREADS 4
 
 int A[SIZE][SIZE], B[SIZE][SIZE], C[SIZE][SIZE], RESULT[SIZE][SIZE];
