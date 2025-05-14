@@ -28,3 +28,5 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 "
 org.gradle.api.internal.tasks.TaskDependencyResolveException: Could not determine the dependencies of task ':app:check'.
 
+Calculating task graph as no cached configuration is available for tasks: build
+Configuration cache entry stored.
