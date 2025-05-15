@@ -48,3 +48,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0")
     implementation("com.google.guava:guava:32.1.2-jre")
 }
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/vitaliano/Education/Java/GradleLEarning/FirstGradleProject/app/build.gradle.kts' line: 41
+
+* What went wrong:
+Script compilation errors:
+
+  Line 41:     useJUnitPlatform()
+               ^ Unresolved reference: useJUnitPlatform
+
+  Line 42: }
+           ^ Unexpected symbol
+
+2 errors
+
