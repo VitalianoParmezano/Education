@@ -1,0 +1,53 @@
+openjdk 24.0.1 2025-04-15
+OpenJDK Runtime Environment (build 24.0.1)
+OpenJDK 64-Bit Server VM (build 24.0.1, mixed mode, sharing)
+
+------------------------------------------------------------
+Gradle 8.13
+------------------------------------------------------------
+
+Build time:    2025-02-25 09:22:14 UTC
+Revision:      073314332697ba45c16c0a0ce1891fa6794179ff
+
+Kotlin:        2.0.21
+Groovy:        3.0.22
+Ant:           Apache Ant(TM) version 1.10.15 compiled on August 25 2024
+Launcher JVM:  24.0.1 (Arch Linux 24.0.1)
+Daemon JVM:    /usr/lib/jvm/java-24-openjdk (no JDK specified, using current Java home)
+OS:            Linux 6.14.4-arch1-2 amd64
+
+plugins {
+    // Плагін для консольного Java-додатку
+    application
+}
+
+repositories {
+    // Використовуємо Maven Central для завантаження залежностей
+    mavenCentral()
+}
+
+dependencies {
+    // Основна бібліотека програми (можеш змінити або видалити, якщо не треба)
+    implementation("com.google.guava:guava:32.1.2-jre")
+
+    // Додаємо підтримку JUnit 5 для тестування
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.0")
+}
+
+java {
+    // Вказуємо потрібну версію Java
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+application {
+    // Вказуємо повне ім'я класу з методом main()
+    mainClass.set("org.example.App")
+}
+
+// Активуємо підтримку JUnit 5
+tasks.test {
+    useJUnitPlatform()
+}
