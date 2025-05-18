@@ -1,15 +1,22 @@
-CashPay.java:6: error: pay(int) in CashPay cannot implement pay(int) in PayInterface
-    void pay(int a){
-         ^
-  attempting to assign weaker access privileges; was public
-1 error
-package interface_pac;
 
-public class CashPay implements PayInterface {
+syntax on
+set number
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set background=dark
 
-    @Override
-    void pay(int a){
-        System.out.println("Cash pay: "+ a + " money");
-    }
+call plug#begin('~/.vim/plugged')
 
-}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+Plug 'sheerun/vim-polyglot'
+
+call plug#end()
+let @t=":\<C-u>NERDTreeToggle\<CR>"
+
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
