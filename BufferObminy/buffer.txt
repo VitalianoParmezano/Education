@@ -8,3 +8,30 @@ public class CardPay implements PayInterface {
     }
 
 }
+
+CardPay.java:1: error: <identifier> expected
+package interface;
+       ^
+CardPay.java:1: error: <identifier> expected
+package interface;
+                 ^
+CashPay.java:1: error: <identifier> expected
+package interface;
+       ^
+CashPay.java:1: error: <identifier> expected
+package interface;
+                 ^
+Main.java:1: error: <identifier> expected
+package interface;
+       ^
+Main.java:1: error: <identifier> expected
+package interface;
+                 ^
+Main.java:3: error: class, interface, enum, or record expected
+import ~/Education/Java/SmallProblems
+^
+PayInterface.java:1: error: <identifier> expected
+package interface;
+       ^
+PayInterface.java:1: error: <identifier> expected
+package interface;
