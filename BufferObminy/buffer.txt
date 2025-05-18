@@ -1,37 +1,15 @@
-package interface;
+CashPay.java:6: error: pay(int) in CashPay cannot implement pay(int) in PayInterface
+    void pay(int a){
+         ^
+  attempting to assign weaker access privileges; was public
+1 error
+package interface_pac;
 
-public class CardPay implements PayInterface {
+public class CashPay implements PayInterface {
 
     @Override
     void pay(int a){
-        System.out.println("CarD pay: "+ a + " money");
+        System.out.println("Cash pay: "+ a + " money");
     }
 
 }
-
-CardPay.java:1: error: <identifier> expected
-package interface;
-       ^
-CardPay.java:1: error: <identifier> expected
-package interface;
-                 ^
-CashPay.java:1: error: <identifier> expected
-package interface;
-       ^
-CashPay.java:1: error: <identifier> expected
-package interface;
-                 ^
-Main.java:1: error: <identifier> expected
-package interface;
-       ^
-Main.java:1: error: <identifier> expected
-package interface;
-                 ^
-Main.java:3: error: class, interface, enum, or record expected
-import ~/Education/Java/SmallProblems
-^
-PayInterface.java:1: error: <identifier> expected
-package interface;
-       ^
-PayInterface.java:1: error: <identifier> expected
-package interface;
