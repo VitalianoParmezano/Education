@@ -1,0 +1,16 @@
+1#include <stdio.h>
+2#include <stdlib.h>
+3#include "example.h"
+4
+5// Реалізація процедури
+6int * add_1_svc(int *argp, struct svc_req *rqstp) {
+7    static int result;
+8    result = argp[0] + argp[1];
+9    return &result;
+10}
+11
+12int main() {
+13    pmap_unset(EXAMPLE_PROG, EXAMPLE_VERS);
+14    svc_run();
+15    fprintf(stderr, "svc_run returned\n");
+16    exit(1);
