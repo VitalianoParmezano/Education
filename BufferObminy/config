@@ -1,9 +1,0 @@
-1/*
-2 * example.x
-3 */
-4
-5program EXAMPLE_PROG {
-6    version EXAMPLE_VERS {
-7        int ADD(int, int) = 1;
-8    } = 1;
-9} = 0x20000001;
