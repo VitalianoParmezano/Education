@@ -13,7 +13,7 @@ struct Lisst{
     Lisst* next = nullptr;
 };
 
-void deletee(int position, Lisst* ls)
+void deletee(int position, Lisst* Head)
 
 void insert(int position, int val, Lisst* ls);
 
@@ -33,7 +33,7 @@ int main()
     }
     
     insert(6,6,&head);
-    
+    deletee(5,head); 
     while (head.next != nullptr){
         std::cout<<head.val<<std::endl;
         head = *head.next;
@@ -44,10 +44,14 @@ int main()
     return 0;
 }
 
-void deletee(int position, Lisst* ls){
+void deletee(int position, Lisst* Head){
     
+    Lisst* cursor = Head;  
     
-    
+    for(int i = 0; i <= position-1; i++){
+       cursor=cursor->next; 
+    }
+    cursor->next=cursor->next;
 }
 
 void insert(int position, int value, Lisst* ls) {
