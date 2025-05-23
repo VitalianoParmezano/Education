@@ -45,43 +45,44 @@ int main()
     }
     std::cout<<head.val;
     
-    cout<<"What u wonna do?"<<endl<<"1 - add | 2 - delete | 3 - print list"<<endl;
-    int choose=0;
-    std::cin >> choose;
-    int val, pos;
-    SWITCH_LINK:
+   bool running = true;
+while (running) {
+    cout << "What u wanna do?\n1 - add | 2 - delete | 3 - print list | 4 - exit\n";
+    int choose;
+    cin >> choose;
+
     switch (choose) {
-        case 1: 
-        cout<<"position and value:"<<endl;
-        cin>>pos>>val;
-        insert(pos, val, &head);
-        break;
-        case 2:
-        cout<<"position?";
-        cin>>pos;
-        deletee(pos, &head);
-        break;
-        case 3:
-        cout<<"Here is a list:"<<endl;
-    
-        while (head.next != nullptr){
-        std::cout<<head.val<<std::endl;
-        head = *head.next;
+        case 1: {
+            cout << "Position and value:\n";
+            int pos, val;
+            cin >> pos >> val;
+            insert(pos, val, &head);
+            break;
         }
-        std::cout<<head.val;
-        break;
-        
+        case 2: {
+            cout << "Position?\n";
+            int pos;
+            cin >> pos;
+            deletee(pos, &head);
+            break;
+        }
+        case 3: {
+            cout << "Here is a list:\n";
+            Lisst* temp = &head;
+            while (temp != nullptr) {
+                cout << temp->val << endl;
+                temp = temp->next;
+            }
+            break;
+        }
         case 4:
-        goto EXIT_LINK;
-        
+            running = false;
+            break;
         default:
-        cout << "one more time!"<<endl;
-        break;
+            cout << "Try again!\n";
     }
-    
-    goto SWITCH_LINK;
-    
-    EXIT_LINK:
+}
+
     return 0;
 }
 
