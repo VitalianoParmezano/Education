@@ -14,19 +14,19 @@ void insert(int position, int val, Lisst* ls);
 
 int main()
 {
-    Lisst head = Lisst();
-    Lisst* tail = & head;
+    Lisst* head =new Lisst();
+    Lisst* tail =  head;
     
     tail->val=0;
     
-    for(int i = 1;i<8;i++){
+    for(int i = 1;i<5;i++){
         tail->next = new Lisst();
         tail = tail->next;
         tail->val = i;
         
     }
             cout << "Here is a list:\n";
-            Lisst* temp = &head;
+            Lisst* temp = head;
             while (temp != nullptr) {
                 cout << temp->val << endl;
                 temp = temp->next;
@@ -44,19 +44,19 @@ while (running) {
             cout << "Position and value:\n";
             int pos, val;
             cin >> pos >> val;
-            insert(pos, val, &head);
+            insert(pos, val, head);
             break;
         }
         case 2: {
             cout << "Position?\n";
             int pos;
             cin >> pos;
-            deletee(pos, &head);
+            deletee(pos, head);
             break;
         }
         case 3: {
             cout << "Here is a list:\n";
-            Lisst* temp = &head;
+            Lisst* temp = head;
             while (temp != nullptr) {
                 cout <<"\t" << temp->val << endl;
                 temp = temp->next;
@@ -67,12 +67,12 @@ while (running) {
             running = false;
             break;
         case 5:
-            cout<<"Lenght: "<<lenght_of_list(&head)<<endl;
+            cout<<"Lenght: "<<lenght_of_list(head)<<endl;
             break;
         case 6:
             cout<<"Reverse! "<<std::endl;
-            Lisst* reverseHead = reverse(&head);
-            head = * reverseHead;
+            head = reverse(head);
+
             break;
 
     //    default:
