@@ -1,2 +1,4 @@
 token.txt
 link.txt
+*.class
+.out
