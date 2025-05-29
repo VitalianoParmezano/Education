@@ -1,22 +1,45 @@
+/******************************************************************************
 
-syntax on
-set number
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set autoindent
-set background=dark
+                              Online C++ Debugger.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Debug" button to debug it.
 
-call plug#begin('~/.vim/plugged')
+*******************************************************************************/
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
-Plug 'sheerun/vim-polyglot'
+#include <iostream>
 
-call plug#end()
-let @t=":\<C-u>NERDTreeToggle\<CR>"
+ struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode() : val(0), next(nullptr) {}
+      ListNode(int x) : val(x), next(nullptr) {}
+      ListNode(int x, ListNode *next) : val(x), next(next) {}
+  };
+  
+  ListNode* rotateRight(ListNode* head, int k);
+  
+int main()
+{
+    std::cout<<"Hello World";
+    ListNode* head = new ListNode(0);
+    ListNode* cursor = head;
+    for(int i = 0;i<4;i++){
+        cursor->val = i;
+        cursor->next = new ListNode(i);
+        cursor=cursor->next;
+    }
+    rotateRight (head, 2);
+    return 0;
+}
 
-inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+ListNode* rotateRight(ListNode* head, int k) {
+        ListNode* cursor = head;
+        int counter = 0;
 
+        while (cursor){
+            counter++;
+            cursor = cursor->next;
+        }
+        return nullptr;
+}
+        
