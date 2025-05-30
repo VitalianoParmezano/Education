@@ -1,45 +1,28 @@
-/******************************************************************************
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if(!head||!head->next){return head;}
 
-                              Online C++ Debugger.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Debug" button to debug it.
+        ListNode* x = head;
+        ListNode* y = head->next;
+        ListNode* result = y;
 
-*******************************************************************************/
-
-#include <iostream>
-
- struct ListNode {
-      int val;
-      ListNode *next;
-      ListNode() : val(0), next(nullptr) {}
-      ListNode(int x) : val(x), next(nullptr) {}
-      ListNode(int x, ListNode *next) : val(x), next(next) {}
-  };
-  
-  ListNode* rotateRight(ListNode* head, int k);
-  
-int main()
-{
-    std::cout<<"Hello World";
-    ListNode* head = new ListNode(0);
-    ListNode* cursor = head;
-    for(int i = 0;i<4;i++){
-        cursor->val = i;
-        cursor->next = new ListNode(i);
-        cursor=cursor->next;
-    }
-    rotateRight (head, 2);
-    return 0;
-}
-
-ListNode* rotateRight(ListNode* head, int k) {
-        ListNode* cursor = head;
-        int counter = 0;
-
-        while (cursor){
-            counter++;
-            cursor = cursor->next;
+        while(x||y||x->next || y->next){
+            x->next=y->next;
+            y->next=x;
+            x = x->next;
+            y = x->next->next;
         }
-        return nullptr;
-}
-        
+        return result;
+    }
+};
