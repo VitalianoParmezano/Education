@@ -10,19 +10,37 @@
   
     ListNode* rotateRight(ListNode* head, int k);
     void printList(ListNode* head);
+    ListNode*rotateRightRecurce(ListNode* head, int k);
 
 int main()
 {
     ListNode* head = new ListNode(0);
     ListNode* cursor = head;
-    for(int i = 1;i<4;i++){
+    for(int i = 1;i<10;i++){
         cursor->next = new ListNode(i);
         cursor=cursor->next;
     }
     printList(head);
-    head = rotateRight (head, 2);
+    head = rotateRightRecurce(head, 9);
+    //head = rotateRight (head, 2);
     printList(head);
     return 0;
+}
+
+ListNode*rotateRightRecurce(ListNode* head, int k){
+    if (k <= 0||head->next==nullptr){return head;}
+    ListNode* cursor = new ListNode(-1);
+    cursor->next = head;
+    
+    while(cursor->next->next){
+    cursor=cursor->next;
+    }
+
+    ListNode*temp = cursor->next;
+    cursor->next = nullptr;
+    temp->next=head;
+    return rotateRightRecurce(temp,k-1);
+
 }
 
 ListNode* rotateRight(ListNode* head, int k) {
