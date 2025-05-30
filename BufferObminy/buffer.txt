@@ -1,63 +1,18 @@
-#include <iostream>
-using namespace std;
-
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
-};
-
-void PrintList(ListNode* head);
-ListNode* swapPairs(ListNode* head);
-
-int main() {
-    ListNode* head = new ListNode(0);
-    int Number = 5;
-
-    ListNode* cursor = head;
-    for (int i = 1; i < Number; i++) {
-        cursor->next = new ListNode(i);
-        cursor = cursor->next;
+ ListNode* smaller = new ListNode(-1);
+        ListNode* smallercur = smaller;
+        ListNode* bigger = new ListNode(-1);
+        ListNode* biggercur = bigger;
+        ListNode* cursor = head;
+        while(cursor){
+            if(cursor->val<x){
+                smallercur->next=cursor;
+                smallercur = smallercur->next;
+            }else{
+                biggercur->next=cursor;
+                biggercur = biggercur->next;
+            }
+            cursor = cursor->next;
+        }
+        smallercur->next=bigger->next;
+        return smaller->next;
     }
-
-    PrintList(head);
-
-    head = swapPairs(head); // додав виклик функції для тесту
-    PrintList(head);
-
-    return 0;
-}
-
-ListNode* swapPairs(ListNode* head) {
-    if (!head || !head->next) return head;
-
-    ListNode* x = head;
-    ListNode* y = head->next;
-    ListNode* result = y;
-
-    while (x && y) {
-        x->next = y->next;
-        y->next = x;
-
-        // Перевірити, чи є наступна пара
-        if (!x->next || !x->next->next) break;
-
-        ListNode* temp = x->next;
-        x->next = x->next->next;
-        x = temp;
-        y = x->next;
-    }
-
-    return result;
-}
-
-void PrintList(ListNode* head) {
-    ListNode* temp = head;
-    while (temp != nullptr) {
-        cout << "\t" << temp->val << endl;
-        temp = temp->next;
-    }
-    cout << endl;
-}
