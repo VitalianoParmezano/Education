@@ -28,40 +28,43 @@ return 0;
 
     ListNode* reverseBetween(ListNode* head, int left, int right) {
 
-        ListNode* cursor = head;
-        ListNode* RL = nullptr;
-        ListNode* Last = nullptr;
-        ListNode* RightNode = nullptr;  
+        ListNode* dump = new ListNode(-1, head);
 
-        for (int i = 0; i < right; i++){
-            cursor = cursor->next;
-        }
-        RightNode = cursor;
-        cursor = head;
-        for (int i = 0; i < left-1; i++){
-            cursor = cursor->next;
-        }
-        RL = cursor;
-        cursor = cursor -> next;
+        ListNode* Last = dump;
+        ListNode* Current = head;  
 
-        int lendht = right - left;
+        ListNode* StartReverse = nullptr;
+        ListNode* EndReverse = nullptr;
 
-        for(int i = 0; i<lendht; i++){
+        int counter = 0;
+        while (Current){
+            ListNode* nextNode = nullptr;
+            if (counter == left){
+                StartReverse = Last;
+                EndReverse = Current;
+            }
+            if (counter>left && counter <=right){
+               nextNode = Current->next;
+               Current->next = Last;
+               Last = Current;
+               Current = nextNode;
+
+               counter++;
+               continue;
+            }
+
+            if (counter>right){
+            StartReverse->next = Last;
+            EndReverse-> next = Current;
+            break;
+            }
+
+            counter ++;
+            Last=Current;
+            Current=Current->next;
             
-            ListNode* next = cursor->next;
-            cursor->next = Last;
-            Last = cursor;
-            cursor = next; 
-
 
         }
-        cursor->next = RightNode;
-        cursor = head;
-
-        for (int i = 0; i < left; i++){
-            cursor = cursor->next;
-        }
-        cursor->next = RL;
         return head;
 
     }
