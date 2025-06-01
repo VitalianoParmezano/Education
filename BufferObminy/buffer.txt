@@ -1,18 +1,41 @@
- ListNode* smaller = new ListNode(-1);
-        ListNode* smallercur = smaller;
-        ListNode* bigger = new ListNode(-1);
-        ListNode* biggercur = bigger;
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+
         ListNode* cursor = head;
-        while(cursor){
-            if(cursor->val<x){
-                smallercur->next=cursor;
-                smallercur = smallercur->next;
-            }else{
-                biggercur->next=cursor;
-                biggercur = biggercur->next;
-            }
+        ListNode* RL = nullptr;
+        ListNode* Last = nullptr;
+
+        for (int i = 0; i < left-1; i++){
             cursor = cursor->next;
         }
-        smallercur->next=bigger->next;
-        return smaller->next;
+        RL = cursor;
+        cursor = cursor -> next;
+
+        int lendht = right - left;
+
+        for(int i = 0; i<lendht; i++){
+            
+            ListNode* next = cursor->next;
+            cursor->next = Last;
+            Last = cursor;
+            cursor = next; 
+
+
+        }
+
+        cursor->next = Last;
+
+
     }
+};
