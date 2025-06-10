@@ -1,16 +1,53 @@
- ListNode* dump = new ListNode(-1, head);
-        ListNode* prev = dump;
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <mpi.h>
+#include <time.h>
 
-        for (int i = 1; i < left; ++i) {
-            prev = prev->next;
-        }
+// Нова функція для інтегрування
+double func(double x) {
+    return pow(1 + x * x, exp(atan(x)));
+}
 
-        ListNode* curr = prev->next;
-        for (int i = 0; i < right - left; ++i) {
-            ListNode* temp = curr->next;
-            curr->next = temp->next;
-            temp->next = prev->next;
-            prev->next = temp;
-        }
+int main(int argc, char** argv) {
+    int rank, size;
+    double x, local_sum = 0.0, total_sum = 0.0;
+    int total_points = 1000000; // Загальна кількість точок для Монте-Карло
 
-        return dump->next;
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // Введення x лише головним процесом
+    if (rank == 0) {
+        printf("Введіть праву межу інтегрування (ліва межа = 0): ");
+        scanf("%lf", &x);
+    }
+
+    // Передаємо x всім процесам
+    MPI_Bcast(&x, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+    // Ініціалізуємо генератор випадкових чисел
+    srand(time(NULL) + rank);
+
+    // Кількість точок для кожного процесу
+    int points_per_process = total_points / size;
+
+    for (int i = 0; i < points_per_process; i++) {
+        double rand_x = ((double)rand() / RAND_MAX) * x; // Випадкове x у [0, x]
+        local_sum += func(rand_x);
+    }
+
+    // Збираємо суми з усіх процесів
+    MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+    if (rank == 0) {
+        double average = total_sum / total_points;
+        double integral = average * x;
+
+        printf("Інтеграл функції (1 + x^2)^(e^arctg(x)) на [0; %.4lf] ≈ %.6lf\n", x, integral);
+    }
+
+    MPI_Finalize();
+    return 0;
+}
