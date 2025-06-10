@@ -1,53 +1,111 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <mpi.h>
-#include <time.h>
+#include <CL/cl.h>
 
-// Нова функція для інтегрування
-double func(double x) {
-    return pow(1 + x * x, exp(atan(x)));
+#define N 3
+#define MAX_ITER 100
+#define TOL 1e-6
+
+const char *kernelSource = 
+"__kernel void jacobi_step(__global float* A, __global float* b, __global float* x_old, __global float* x_new, int n) {       \n"
+"    int i = get_global_id(0);                                                                                                \n"
+"    if (i >= n) return;                                                                                                      \n"
+"    float sigma = 0.0f;                                                                                                      \n"
+"    for (int j = 0; j < n; j++) {                                                                                            \n"
+"        if (j != i) sigma += A[i * n + j] * x_old[j];                                                                        \n"
+"    }                                                                                                                        \n"
+"    x_new[i] = (b[i] - sigma) / A[i * n + i];                                                                                \n"
+"}                                                                                                                            \n";
+
+void check(cl_int err, const char* operation) {
+    if (err != CL_SUCCESS) {
+        fprintf(stderr, "OpenCL error during \"%s\": %d\n", operation, err);
+        exit(1);
+    }
 }
 
-int main(int argc, char** argv) {
-    int rank, size;
-    double x, local_sum = 0.0, total_sum = 0.0;
-    int total_points = 1000000; // Загальна кількість точок для Монте-Карло
+int main() {
+    float A[N*N] = {
+        10, -1, 2,
+        -1, 11, -1,
+        2, -1, 10
+    };
+    float b[N] = {6, 25, -11};
+    float x_old[N] = {0, 0, 0};
+    float x_new[N];
 
-    MPI_Init(&argc, &argv);
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    // OpenCL setup
+    cl_platform_id platform;
+    cl_device_id device;
+    cl_context context;
+    cl_command_queue queue;
+    cl_program program;
+    cl_kernel kernel;
+    cl_mem d_A, d_b, d_x_old, d_x_new;
+    cl_int err;
 
-    // Введення x лише головним процесом
-    if (rank == 0) {
-        printf("Введіть праву межу інтегрування (ліва межа = 0): ");
-        scanf("%lf", &x);
+    check(clGetPlatformIDs(1, &platform, NULL), "clGetPlatformIDs");
+    check(clGetDeviceIDs(platform, CL_DEVICE_TYPE_GPU, 1, &device, NULL), "clGetDeviceIDs");
+    context = clCreateContext(NULL, 1, &device, NULL, NULL, &err);
+    check(err, "clCreateContext");
+    queue = clCreateCommandQueueWithProperties(context, device, 0, &err);
+    check(err, "clCreateCommandQueueWithProperties");
+
+    program = clCreateProgramWithSource(context, 1, &kernelSource, NULL, &err);
+    check(err, "clCreateProgramWithSource");
+    check(clBuildProgram(program, 1, &device, NULL, NULL, NULL), "clBuildProgram");
+    kernel = clCreateKernel(program, "jacobi_step", &err);
+    check(err, "clCreateKernel");
+
+    // Buffers
+    d_A = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(float) * N * N, A, &err);
+    d_b = clCreateBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(float) * N, b, &err);
+    d_x_old = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(float) * N, x_old, &err);
+    d_x_new = clCreateBuffer(context, CL_MEM_READ_WRITE, sizeof(float) * N, NULL, &err);
+
+    // Arguments
+    check(clSetKernelArg(kernel, 0, sizeof(cl_mem), &d_A), "set arg 0");
+    check(clSetKernelArg(kernel, 1, sizeof(cl_mem), &d_b), "set arg 1");
+    check(clSetKernelArg(kernel, 2, sizeof(cl_mem), &d_x_old), "set arg 2");
+    check(clSetKernelArg(kernel, 3, sizeof(cl_mem), &d_x_new), "set arg 3");
+    check(clSetKernelArg(kernel, 4, sizeof(int), &((int){N})), "set arg 4");
+
+    // Jacobi iteration
+    for (int iter = 0; iter < MAX_ITER; iter++) {
+        size_t globalSize = N;
+        check(clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &globalSize, NULL, 0, NULL, NULL), "enqueue kernel");
+
+        clFinish(queue);
+        clEnqueueReadBuffer(queue, d_x_new, CL_TRUE, 0, sizeof(float)*N, x_new, 0, NULL, NULL);
+
+        // Перевірка на збіжність
+        float norm = 0.0;
+        for (int i = 0; i < N; i++) {
+            norm += fabs(x_new[i] - x_old[i]);
+            x_old[i] = x_new[i];
+        }
+
+        if (norm < TOL) {
+            printf("Converged in %d iterations.\n", iter + 1);
+            break;
+        }
+
+        clEnqueueWriteBuffer(queue, d_x_old, CL_TRUE, 0, sizeof(float)*N, x_old, 0, NULL, NULL);
     }
 
-    // Передаємо x всім процесам
-    MPI_Bcast(&x, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-
-    // Ініціалізуємо генератор випадкових чисел
-    srand(time(NULL) + rank);
-
-    // Кількість точок для кожного процесу
-    int points_per_process = total_points / size;
-
-    for (int i = 0; i < points_per_process; i++) {
-        double rand_x = ((double)rand() / RAND_MAX) * x; // Випадкове x у [0, x]
-        local_sum += func(rand_x);
+    printf("Result:\n");
+    for (int i = 0; i < N; i++) {
+        printf("x[%d] = %f\n", i, x_new[i]);
     }
 
-    // Збираємо суми з усіх процесів
-    MPI_Reduce(&local_sum, &total_sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
-
-    if (rank == 0) {
-        double average = total_sum / total_points;
-        double integral = average * x;
-
-        printf("Інтеграл функції (1 + x^2)^(e^arctg(x)) на [0; %.4lf] ≈ %.6lf\n", x, integral);
-    }
-
-    MPI_Finalize();
+    clReleaseMemObject(d_A);
+    clReleaseMemObject(d_b);
+    clReleaseMemObject(d_x_old);
+    clReleaseMemObject(d_x_new);
+    clReleaseKernel(kernel);
+    clReleaseProgram(program);
+    clReleaseCommandQueue(queue);
+    clReleaseContext(context);
     return 0;
 }
